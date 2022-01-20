@@ -3,8 +3,8 @@ import './Map.css';
 
 function Map() {
   return (
-    <div className="Map">
-        <p>text map</p>
+    <div data-testid="Map" className="Map">
+        
     </div>
   );
 }
