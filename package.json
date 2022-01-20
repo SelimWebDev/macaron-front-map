@@ -22,7 +22,10 @@
     "test": "react-scripts test --watchAll=false",
     "eject": "react-scripts eject",
     "prepare": "husky install",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix"
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "cypress:open": "cypress open",
+    "cypress": "cypress run"
+
   },
   "eslintConfig": {
     "extends": [
@@ -43,6 +46,7 @@
     ]
   },
   "devDependencies": {
+    "cypress": "^9.3.1",
     "eslint": "^8.7.0",
     "husky": "^7.0.4"
   }
