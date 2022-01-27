@@ -1,11 +1,11 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Map from '../Map/Map'
 
 function App() {
   return (
     <div data-testid="App" id="App">
-      
+      <Map></Map>
     </div>
   );
 }
