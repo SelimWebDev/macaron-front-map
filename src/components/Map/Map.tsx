@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import ReactMapGL from 'react-map-gl';
+import DeckGL from '@deck.gl/react';
 import './Map.css';
+import {StaticMap} from 'react-map-gl';
 
 function Map() {
   const [viewport, setViewport] = useState({
@@ -11,13 +13,16 @@ function Map() {
     zoom: 8
   });
 
+  const data = {}
+
   return (
     <div data-testid="Map" id="Map">
-        <ReactMapGL
-          {...viewport}
-          onViewportChange={(nextViewport: typeof viewport) => setViewport(nextViewport)}
-          mapboxApiAccessToken="pk.eyJ1Ijoic2VsaW13ZWJkZXYiLCJhIjoiY2t5d3p0c3J2MDAzcTJvcm4wODVlMzQzbCJ9.vK4tHxubO14oxdDKsPQRBw"
-        />
+        <DeckGL
+          initialViewState={viewport}
+          controller={true}
+        >
+          <StaticMap mapboxApiAccessToken={"pk.eyJ1Ijoic2VsaW13ZWJkZXYiLCJhIjoiY2t5d3p0c3J2MDAzcTJvcm4wODVlMzQzbCJ9.vK4tHxubO14oxdDKsPQRBw"} />
+        </DeckGL>
     </div>
   );
 }
