@@ -2,7 +2,7 @@ import { useState } from 'react';
 import DeckGL from '@deck.gl/react';
 import './Map.css';
 import { StaticMap } from 'react-map-gl';
-//import { GeoJsonLayer } from '@deck.gl/layers';
+import { GeoJsonLayer } from '@deck.gl/layers';
 
 function Map(props: any){
   const ReactMapGLToken = "pk.eyJ1Ijoic2VsaW13ZWJkZXYiLCJhIjoiY2t5d3p0c3J2MDAzcTJvcm4wODVlMzQzbCJ9.vK4tHxubO14oxdDKsPQRBw"
@@ -14,16 +14,17 @@ function Map(props: any){
     zoom: 8
   });
 
-  /*const layer = new GeoJsonLayer ({
+  const layer = new GeoJsonLayer ({
     id: 'allArrondissement',
     data: props.arrondissement,
-  })*/
+  })
 
   return (
     <div data-testid="Map" id="Map">
         <DeckGL
           initialViewState={viewport}
           controller={true}
+          layers={layer}
         >
           <StaticMap mapboxApiAccessToken={ReactMapGLToken} />
         </DeckGL>
