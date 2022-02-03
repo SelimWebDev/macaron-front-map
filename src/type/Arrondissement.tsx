@@ -1,4 +1,4 @@
-export type Arrondissement = {
+export class Arrondissement {
     id: string;
     type: string;
     geometry: {
