@@ -25,7 +25,7 @@ function FilterSelect({filtersList, update}: FilterSelectProps){ // Description 
     }
 
     return (
-        <div id="filter-select">
+        <div data-testid="filter-select" id="filter-select">
             <label htmlFor="district-select">Choisissez un arrondissement</label>
 
             <select name="districts" id="district-select" onChange={(e) => handleChange(e)}>

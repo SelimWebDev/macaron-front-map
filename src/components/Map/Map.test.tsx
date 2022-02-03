@@ -15,6 +15,6 @@ const tournageTest = {
 
 test('component map', async () => {
   render(<Map arrondissements={arrondisssementTest} tournages={tournageTest}></Map>);
-  const idMap = await screen.findByTestId('Map');
+  const idMap = await screen.findByTestId('map');
   expect(idMap).toBeInTheDocument();
 });
