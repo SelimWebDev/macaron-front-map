@@ -1,11 +1,12 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { Arrondissement } from '../type/Arrondissement'
 import { FeatureCollection } from '../type/FeatureCollection'
 import { Filter } from '../type/Filter'
+import { Status } from '../type/Status'
 import type { RootState } from './store'
 
 interface arrondissementState {
-  isLoaded: boolean,
+  status: Status,
   error: string,
   data: FeatureCollection,
   filters: Filter[]
@@ -13,7 +14,7 @@ interface arrondissementState {
 
 // Define the initial state using that type
 const initialState: arrondissementState = {
-  isLoaded: false,
+  status: Status.initial,
   error: "",
   data: {
     type: "FeatureCollection",
@@ -40,10 +41,10 @@ export const arrondissementSlice = createSlice({
   extraReducers(builder) {
     builder
       .addCase(fetchArrondissement.pending, (state, action) => {
-        //state.status = 'loading'
+        state.status = Status.loading
       })
       .addCase(fetchArrondissement.fulfilled, (state, action) => {
-        state.isLoaded = true
+        state.status = Status.loaded
         state.data.features = action.payload
         for (let i=0; i< action.payload.length;i++){
           state.filters.push({
@@ -53,7 +54,7 @@ export const arrondissementSlice = createSlice({
         }
       })
       .addCase(fetchArrondissement.rejected, (state, action) => {
-        state.isLoaded = true
+        state.status = Status.failed
         state.error = action.error.message
       })
   }

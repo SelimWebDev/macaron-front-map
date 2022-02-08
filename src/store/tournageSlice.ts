@@ -1,19 +1,19 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { create } from 'domain'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { FeatureCollection } from '../type/FeatureCollection'
 import { Filter } from '../type/Filter'
+import { Status } from '../type/Status'
 import { Tournage } from '../type/Tournage'
 import type { RootState } from './store'
 
 interface tournageState {
-  status: string,
+  status: Status,
   error: string,
   data: FeatureCollection
 }
 
 // Define the initial state using that type
 const initialState: tournageState = {
-  status: "",
+  status: Status.initial,
   error: "",
   data: {
     type: "FeatureCollection",
@@ -22,7 +22,8 @@ const initialState: tournageState = {
 }
 
 //thunk function
-export const fetchTournageByCode = createAsyncThunk('tournage/fetchByCode', async (filter?: Filter) => {
+
+export const fetchTournageByCode = createAsyncThunk('tournage/fetchByCode', async (filter?: Filter | undefined) => {
   console.log("fetch tournage filtré")
   const codeStr = JSON.stringify(filter.code)
   const paramCode = codeStr[3] + codeStr[4]
@@ -49,27 +50,27 @@ export const tournageSlice = createSlice({
   extraReducers(builder) {
     builder
       .addCase(fetchTournage.pending, (state, action) => {
-        state.status = 'loading'
+        state.status = Status.loading
       })
       .addCase(fetchTournage.fulfilled, (state, action) => {
-        state.status = "loaded"
+        state.status = Status.loaded
         // Add any fetched posts to the array
         state.data.features = action.payload
       })
       .addCase(fetchTournage.rejected, (state, action) => {
-        state.status = "error"
+        state.status = Status.failed
         state.error = action.error.message
       })
 
       .addCase(fetchTournageByCode.pending, (state, action) => {
-        state.status = 'loading'
+        state.status = Status.loading
       })
       .addCase(fetchTournageByCode.fulfilled, (state, action) => {
-        state.status = 'loaded'
+        state.status = Status.loaded
         state.data.features = action.payload
       })
       .addCase(fetchTournageByCode.rejected, (state, action) => {
-        state.status = "error"
+        state.status = Status.failed
         state.error = action.error.message
       })
   }
