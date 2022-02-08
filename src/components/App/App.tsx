@@ -1,71 +1,44 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
 import Map from '../Map/Map'
-import useFetch from '../../utils/hooks/utils.index';
+import { useAppDispatch, useAppSelector } from '../../utils/hooks/utils.index';
 import { FeatureCollection } from '../../type/FeatureCollection';
-import { Filter } from '../../type/Filter';
 import FilterSelect from '../FilterSelect/FilterSelect';
+import { fetchArrondissement, selectArrondissement, selectArrondissementFilter } from '../../store/arrondissementSlice';
+import { fetchTournage, fetchTournageByCode, selectTournage } from '../../store/tournageSlice'
+import { RootState } from '../../store/store';
+import { Filter } from '../../type/Filter';
 
 function App() {
 
-  var allArrondissementFetch = useFetch("http://localhost:3001/arrondissements")
-  var allTournageFetch = useFetch("http://localhost:3001/tournages/")
+  const dispatch = useAppDispatch()
+  const arrondissementState = useAppSelector((state: RootState) => selectArrondissement(state))
+  const filters = useAppSelector((state :RootState) => selectArrondissementFilter(state))
+  const tournageState = useAppSelector((state: RootState) => selectTournage(state))
 
-  // State setting by the fecth
-  const [allArrondissement, setAllArondissement] = useState<FeatureCollection>({               // type featureCollection
-    type: "FeatureCollection",
-    features: []
-  })
-
-  const [allTournage, setAllTournage] = useState<FeatureCollection>({               // type featureCollection
-    type: "FeatureCollection",
-    features: []
-  })
-
-  const [tournagesSelected, setTournagesSelected] = useState<FeatureCollection>({
-    type: "FeatureCollection",
-    features: []
-  })
-
-  const [filters, setFilters] = useState<Array<Filter>>([])
-
-  //State setting by user select
-  const [filtersSelected, setFiltersSelected] = useState<Filter>()
-  //var tournagesSelectedFetch = useFetch("http://localhost:3001/tournages/" + filtersSelected.code)
+  var [filterSelected, setFilterSelected] = useState<Filter>()
 
   useEffect(() => {
-
-    if (allArrondissementFetch.isLoaded && allTournageFetch.isLoaded){  // si fetch sont chargé
-      setAllArondissement({                                             // set tout arrondissement, tournage, et filter
-        ...allArrondissement,
-        features: allArrondissementFetch.data
-      })
-
-      setAllTournage({
-        ...allTournage,
-        features: allTournageFetch.data
-      })
-
-      setFilters(allArrondissementFetch.data.map((arrondissement) => {
-        return {
-          name: arrondissement.properties.l_ar,
-          code: arrondissement.properties.c_arinsee
-        }
-      })) 
+    if(filterSelected){
+      dispatch(fetchTournageByCode(filterSelected))
+    } else {
+      dispatch(fetchArrondissement())
+      dispatch(fetchTournage())
     }
+  },[filterSelected])
+    
+  const [tournagesFilterd, setTournagesFiltered] = useState<FeatureCollection>({
+    type: "FeatureCollection",
+    features: []
+  })
 
-    /*if(tournagesSelectedFetch.isLoaded){
-      setTournagesSelected({
-        ...tournagesSelected,
-        features: tournagesSelectedFetch.data
-      })
-    }*/
-  },[allTournageFetch.isLoaded, allArrondissementFetch.isLoaded])
-  
+  //State setting by user select
+  //var tournagesSelectedFetch = useFetch("http://localhost:3001/tournages/" + filtersSelected.code)
+
   return (
     <div data-testid="App" id="App">
-      {allArrondissementFetch.isLoaded && <FilterSelect filtersList={filters} update={setFiltersSelected}></FilterSelect>}
-      {(allArrondissementFetch.isLoaded && allTournageFetch.isLoaded) && <Map tournagesSelected={tournagesSelected}arrondissements={allArrondissement} tournages={allTournage}></Map>}
+      <FilterSelect filtersList={filters} update={setFilterSelected}></FilterSelect>
+      <Map arrondissements={arrondissementState.data} tournages={tournageState.data}></Map>
     </div>
   );
 }
