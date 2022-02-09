@@ -27,14 +27,14 @@ export const fetchTournageByCode = createAsyncThunk('tournage/fetchByCode', asyn
   console.log("fetch tournage filtré")
   const codeStr = JSON.stringify(filter.code)
   const paramCode = codeStr[3] + codeStr[4]
-  const response = await fetch('http://localhost:3001/tournages/' + paramCode)
+  const response = await fetch(process.env.REACT_APP_URL_BACK + 'tournages/' + paramCode)
   const tournage: Tournage[] = await response.json()
   return tournage
 })
 
 export const fetchTournage = createAsyncThunk('tournage/fetchAll', async () => {
   console.log("fetch tout les tournages")
-  const response = await fetch('http://localhost:3001/tournages/')
+  const response = await fetch(process.env.REACT_APP_URL_BACK + 'tournages/')
   const tournage: Tournage[] = await response.json()
   return tournage
 })

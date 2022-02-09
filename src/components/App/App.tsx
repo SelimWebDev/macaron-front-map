@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 import Map from '../Map/Map'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/utils.index';
-import { FeatureCollection } from '../../type/FeatureCollection';
 import FilterSelect from '../FilterSelect/FilterSelect';
 import { fetchArrondissement, selectArrondissement, selectArrondissementFilter } from '../../store/arrondissementSlice';
 import { fetchTournage, fetchTournageByCode, selectTournage } from '../../store/tournageSlice'

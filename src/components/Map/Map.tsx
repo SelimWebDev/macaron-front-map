@@ -11,7 +11,7 @@ interface MapProps {
 }
 
 function Map({arrondissements, tournages}: MapProps){
-  const ReactMapGLToken = "pk.eyJ1Ijoic2VsaW13ZWJkZXYiLCJhIjoiY2t5d3p0c3J2MDAzcTJvcm4wODVlMzQzbCJ9.vK4tHxubO14oxdDKsPQRBw"
+  const ReactMapGLToken = process.env.REACT_APP_MAP_TOKEN
   const [viewport, setViewport] = useState({
     latitude: 48.856614,
     longitude: 2.3522219,
@@ -35,12 +35,8 @@ function Map({arrondissements, tournages}: MapProps){
     filled: true,
     extruded: true,
     pointType: 'circle',
-    lineWidthScale: 20,
-    lineWidthMinPixels: 2,
     getFillColor: [160, 160, 180, 200],
     getPointRadius: 100,
-    getLineWidth: 1,
-    getElevation: 30
   })
 
   return (

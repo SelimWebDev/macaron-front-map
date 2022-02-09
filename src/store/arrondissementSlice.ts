@@ -26,7 +26,7 @@ const initialState: arrondissementState = {
 //thunk function
 export const fetchArrondissement = createAsyncThunk('arrondissements/fetchAll', async () => {
   console.log("fetch arrondissement")
-  const response = await fetch('http://localhost:3001/arrondissements')
+  const response = await fetch(process.env.REACT_APP_URL_BACK + 'arrondissements')
   const arrondissements: Arrondissement[] = await response.json()
   return arrondissements
 })
