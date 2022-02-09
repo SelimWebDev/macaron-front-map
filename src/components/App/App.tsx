@@ -26,14 +26,6 @@ function App() {
       dispatch(fetchTournage())
     }
   },[filterSelected])
-    
-  const [tournagesFilterd, setTournagesFiltered] = useState<FeatureCollection>({
-    type: "FeatureCollection",
-    features: []
-  })
-
-  //State setting by user select
-  //var tournagesSelectedFetch = useFetch("http://localhost:3001/tournages/" + filtersSelected.code)
 
   return (
     <div data-testid="App" id="App">
