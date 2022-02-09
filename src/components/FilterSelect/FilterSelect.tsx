@@ -29,7 +29,7 @@ function FilterSelect({filtersList, update}: FilterSelectProps){ // Description 
             <label htmlFor="district-select">Choisissez un arrondissement</label>
 
             <select name="districts" id="district-select" onChange={(e) => handleChange(e)}>
-                <option value="default"></option> 
+                <option value="default">Choississez un arrondissement</option> 
                 {filtersList.map((filter, index) => (
                     <option key={index} value={filter.code}>{filter.name}</option>
                 ))}

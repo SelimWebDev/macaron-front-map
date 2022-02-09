@@ -15,7 +15,7 @@ function Map({arrondissements, tournages}: MapProps){
   const [viewport, setViewport] = useState({
     latitude: 48.856614,
     longitude: 2.3522219,
-    zoom: 8
+    zoom: 11
   });
 
   // affichage de tout les arrondissements
@@ -37,6 +37,9 @@ function Map({arrondissements, tournages}: MapProps){
     pointType: 'circle',
     getFillColor: [160, 160, 180, 200],
     getPointRadius: 100,
+    pointRadiusScale: 1,
+    pointRadiusMaxPixels: 20,
+    pointRadiusMinPixels: 1
   })
 
   return (
