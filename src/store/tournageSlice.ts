@@ -6,48 +6,50 @@ import { Tournage } from '../type/Tournage'
 import type { RootState } from './store'
 
 interface tournageState {
-  status: Status,
-  error: string,
-  data: FeatureCollection
+  status: Status;
+  error: string;
+  data: FeatureCollection;
 }
 
 // Define the initial state using that type
 const initialState: tournageState = {
   status: Status.initial,
-  error: "",
+  error: '',
   data: {
-    type: "FeatureCollection",
+    type: 'FeatureCollection',
     features: []
   }
 }
 
-//thunk function
+// thunk function
 
-export const fetchTournageByCode = createAsyncThunk('tournage/fetchByCode', async (filter?: Filter | undefined) => {
-  console.log("fetch tournage filtré")
-  const codeStr = JSON.stringify(filter.code)
-  const paramCode = codeStr[3] + codeStr[4]
-  const response = await fetch('http://localhost:3001/tournages/' + paramCode)
-  const tournage: Tournage[] = await response.json()
-  return tournage
-})
+export const fetchTournageByCode = createAsyncThunk(
+  'tournage/fetchByCode',
+  async (filter?: Filter | undefined) => {
+    console.log('fetch tournage filtré')
+    const codeStr = JSON.stringify(filter.code)
+    const paramCode = codeStr[3] + codeStr[4]
+    const response = await fetch(
+      'http://localhost:3001/tournages/' + paramCode
+    )
+    const tournage: Tournage[] = await response.json()
+    return tournage
+  }
+)
 
 export const fetchTournage = createAsyncThunk('tournage/fetchAll', async () => {
-  console.log("fetch tout les tournages")
+  console.log('fetch tout les tournages')
   const response = await fetch('http://localhost:3001/tournages/')
   const tournage: Tournage[] = await response.json()
   return tournage
 })
 
-
 export const tournageSlice = createSlice({
   name: 'tournage',
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
-  reducers: {
-
-  },
-  extraReducers(builder) {
+  reducers: {},
+  extraReducers (builder) {
     builder
       .addCase(fetchTournage.pending, (state, action) => {
         state.status = Status.loading

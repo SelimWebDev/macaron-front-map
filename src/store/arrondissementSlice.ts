@@ -6,39 +6,40 @@ import { Status } from '../type/Status'
 import type { RootState } from './store'
 
 interface arrondissementState {
-  status: Status,
-  error: string,
-  data: FeatureCollection,
-  filters: Filter[]
+  status: Status;
+  error: string;
+  data: FeatureCollection;
+  filters: Filter[];
 }
 
 // Define the initial state using that type
 const initialState: arrondissementState = {
   status: Status.initial,
-  error: "",
+  error: '',
   data: {
-    type: "FeatureCollection",
+    type: 'FeatureCollection',
     features: []
   },
   filters: []
 }
 
-//thunk function
-export const fetchArrondissement = createAsyncThunk('arrondissements/fetchAll', async () => {
-  console.log("fetch arrondissement")
-  const response = await fetch('http://localhost:3001/arrondissements')
-  const arrondissements: Arrondissement[] = await response.json()
-  return arrondissements
-})
+// thunk function
+export const fetchArrondissement = createAsyncThunk(
+  'arrondissements/fetchAll',
+  async () => {
+    console.log('fetch arrondissement')
+    const response = await fetch('http://localhost:3001/arrondissements')
+    const arrondissements: Arrondissement[] = await response.json()
+    return arrondissements
+  }
+)
 
 export const arrondissementSlice = createSlice({
   name: 'arrondissement',
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
-  reducers: {
-
-  },
-  extraReducers(builder) {
+  reducers: {},
+  extraReducers (builder) {
     builder
       .addCase(fetchArrondissement.pending, (state, action) => {
         state.status = Status.loading
@@ -46,7 +47,7 @@ export const arrondissementSlice = createSlice({
       .addCase(fetchArrondissement.fulfilled, (state, action) => {
         state.status = Status.loaded
         state.data.features = action.payload
-        for (let i=0; i< action.payload.length;i++){
+        for (let i = 0; i < action.payload.length; i++) {
           state.filters.push({
             name: action.payload[i].properties.l_ar,
             code: action.payload[i].properties.c_arinsee
@@ -62,6 +63,7 @@ export const arrondissementSlice = createSlice({
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectArrondissement = (state: RootState) => state.arrondissement
-export const selectArrondissementFilter = (state: RootState) => state.arrondissement.filters
+export const selectArrondissementFilter = (state: RootState) =>
+  state.arrondissement.filters
 
 export default arrondissementSlice.reducer
